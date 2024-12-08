@@ -10,11 +10,7 @@ load_dotenv()
 
 @pytest.fixture
 def client():
-    # Mock environment variables
-    with patch.dict(os.environ, {"MONGO_URI": "mongodb://localhost:27017", "MONGO_DBNAME": "test_database"}):
-        # Ensure Flask uses the testing configuration
-        app.config['TESTING'] = True
-        client = app.test_client()
+    with app.test_client() as client:
         yield client
 
 def test_register_get(client):
