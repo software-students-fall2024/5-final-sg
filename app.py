@@ -132,6 +132,25 @@ def add_event():
 def database():
     user_events = list(events.find({"user": current_user.username}))
     return jsonify(json_util.dumps(user_events))
+
+#yeshni: other users pages
+@app.route('/users')
+@login_required
+def list_users():
+    all_users = list(users.find({}, {"user": current_user.username}))
+    return render_template('user_list.html', users=all_users)
+
+#yeshni: friend's calendar
+@app.route('/users/<username>/calendar')
+@login_required
+def user_calendar(usename):
+    return render_template('user_calendar.html', username=username)
+
+@app.route('/database')
+@login_required
+def database():
+    user_events = list(events.find({"user": current_user.username}))
+    return jsonify(json_util.dumps(user_events))
     
 @app.route('/event/<event_id>/edit', methods=['POST', 'GET'])
 @login_required
