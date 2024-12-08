@@ -110,4 +110,3 @@ def test_edit_event(client):
     updated_event = events.find_one({'_id': event_id})
     assert updated_event['name'] == 'Updated Event'
     assert updated_event['description'] == 'Updated Description'
-  
