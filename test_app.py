@@ -4,6 +4,9 @@ from app import app, users, events
 import datetime
 import os
 from unittest.mock import patch
+from dotenv import load_dotenv
+
+load_dotenv()
 
 @pytest.fixture
 def client():
