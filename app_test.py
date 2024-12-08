@@ -2,21 +2,17 @@ import pytest
 from flask import url_for
 from app import app, users, events
 import datetime
+import os
+from unittest.mock import patch
 
 @pytest.fixture
 def client():
-    app.config['TESTING'] = True
-    app.config['WTF_CSRF_ENABLED'] = False
-    app.config['LOGIN_DISABLED'] = False
-    client = app.test_client()
-    
-    # Mock database
-    with app.app_context():
-        users.delete_many({})  # Clear users collection
-        events.delete_many({})  # Clear events collection
-
-    yield client
-
+    # Mock environment variables
+    with patch.dict(os.environ, {"MONGO_URI": "mongodb://localhost:27017", "MONGO_DBNAME": "test_database"}):
+        # Ensure Flask uses the testing configuration
+        app.config['TESTING'] = True
+        client = app.test_client()
+        yield client
 
 def test_register_get(client):
     response = client.get('/register')
