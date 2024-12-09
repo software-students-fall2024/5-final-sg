@@ -1,7 +1,7 @@
 import pytest
 from flask import url_for
-from app import app, users, events
-import datetime
+from app import app, users, events, db
+from datetime import datetime
 import os
 from unittest.mock import patch
 from dotenv import load_dotenv
@@ -10,8 +10,16 @@ load_dotenv()
 
 @pytest.fixture
 def client():
+    app.config['TESTING'] = True
+    app.config['MONGO_URI'] = 'mongodb://localhost:27017/test_db'  # Use a separate test database
+
+    # Set up a test client
     with app.test_client() as client:
-        yield client
+        # Reset the database before each test
+        db.users.delete_many({})  # Clear users collection
+        yield client  
+        db.users.delete_many({})
+        db.events.delete_many({})  
 
 def test_register_get(client):
     response = client.get('/register')
@@ -22,7 +30,7 @@ def test_register_get(client):
 def test_register_post(client):
     response = client.post('/register', data={'username': 'testuser', 'password': 'password'}, follow_redirects=True)
     assert response.status_code == 200
-    assert b'Registration successful' in response.data
+    assert b'Registration successful. You can now log in.' in response.data
     assert users.find_one({'username': 'testuser'})
 
 
@@ -73,14 +81,16 @@ def test_delete_event(client):
     users.insert_one({'username': 'testuser', 'password': 'password'})
     client.post('/login', data={'username': 'testuser', 'password': 'password'}, follow_redirects=True)
 
+    event_time = datetime(2024, 12, 11, 12, 30)
     event_id = events.insert_one({
         'name': 'Test Event',
         'description': 'Event Description',
-        'time': datetime(2024, 12, 31, 12, 30),
+        'time': event_time.strftime('%Y-%m-%d %H:%M:%S'),
         'user': 'testuser'
     }).inserted_id
 
-    response = client.post(f'/event/{event_id}/delete', follow_redirects=True)
+    response = client.get(f'/event/{event_id}/delete', follow_redirects=True)
+
     assert events.find_one({'_id': event_id}) is None
 
 
@@ -88,10 +98,11 @@ def test_edit_event(client):
     users.insert_one({'username': 'testuser', 'password': 'password'})
     client.post('/login', data={'username': 'testuser', 'password': 'password'}, follow_redirects=True)
 
+    event_time = datetime(2024, 12, 31, 12, 30)
     event_id = events.insert_one({
         'name': 'Old Event',
         'description': 'Old Description',
-        'time': datetime(2024, 12, 31, 12, 30),
+        'time': event_time.strftime('%Y-%m-%d %H:%M:%S'),
         'user': 'testuser'
     }).inserted_id
 

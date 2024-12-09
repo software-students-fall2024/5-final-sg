@@ -143,14 +143,8 @@ def list_users():
 #yeshni: friend's calendar
 @app.route('/users/<username>/calendar')
 @login_required
-def user_calendar(usename):
+def user_calendar(username):
     return render_template('user_calendar.html', username=username)
-
-@app.route('/database')
-@login_required
-def database():
-    user_events = list(events.find({"user": current_user.username}))
-    return jsonify(json_util.dumps(user_events))
     
 @app.route('/event/<event_id>/edit', methods=['POST', 'GET'])
 @login_required
