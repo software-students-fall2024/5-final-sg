@@ -1,8 +1,6 @@
 # Final Project
 ![Web App CI/CD](https://github.com/software-students-fall2024/5-final-sg/actions/workflows/build.yml/badge.svg)
 
-Tests work when run locally, but not with CI/CD pipeline
-
 # Description
 
 My Calendar helps you keep track of your events on a calendar! You can add, delete, and edit events on your calendar by clicking on the event on the calendar. Optionally, you can also drag the events around on the calendar to update the time of the event.
