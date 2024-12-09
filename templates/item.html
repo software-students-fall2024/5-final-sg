@@ -58,6 +58,8 @@
   </select>
   <br> <br> <br>
     <textarea id="fmessage" name="fmessage" placeholder="{{doc.description}}">{{doc.description}}</textarea>
+    <textarea id="flocation" name="flocation" placeholder="{{doc.location}}">{{doc.lcation}}</textarea>
+    <!--<textarea id="fweather" name="fweather" placeholder="no info yet">{{ weather }}</textarea>-->
     <br> <br> <br>
     <input type="submit" value="Save" class="button"/>
     <a href="{{ url_for('delete_event', event_id=doc._id) }}" class="button">Delete</a>

@@ -109,6 +109,7 @@ def add_event():
     if request.method == 'POST':
         name = request.form["fname"]
         description = request.form["fmessage"]
+        location = request.form["flocation"]
         hour = request.form["hours"]
         minute = request.form["minutes"]
         date = request.form["date"]
@@ -119,6 +120,7 @@ def add_event():
         doc = {
             "name": name,
             "description": description,
+            "location": location,
             "time": formatted_time,
             "user": current_user.username
         }
@@ -126,6 +128,27 @@ def add_event():
 
         return redirect(url_for("home"))
     return render_template('event-add.html')
+'''
+def weather():
+    #https://www.geeksforgeeks.org/python-find-current-weather-of-any-city-using-openweathermap-api/
+    api_key = "9f20f6e8ee1493d61515036071f31e53"
+    api = "http://api.openweathermap.org/data/2.5/weather?"
+    location = request.form["flocation"]
+    url = api + "appid=" + api_key + "&q=" + location
+    response = requests.get(url)
+    data = response.json()
+
+    if data["cod"] != "404":
+        temp = data["main"]
+        cur_temp = temp["temp"]
+    
+        weather = data["weather"]
+        weather_description = weather[0]["description"]
+    
+    else:
+        weather_description = "Weather for City Not Found "
+    return render_template('/event/<event_id>/edit', weather=weather_description)
+'''
     
 @app.route('/database')
 @login_required
@@ -163,6 +186,7 @@ def edit_event(event_id):
 
     name = request.form["fname"]
     description = request.form["fmessage"]
+    location = request.form["flocation"]
     hour = request.form["hours"]
     minute = request.form["minutes"]
     date = request.form["date"]
@@ -172,6 +196,7 @@ def edit_event(event_id):
     doc = {
         "name": name,
         "description": description,
+        "location": location,
         "time": datetime_str,
         "user": current_user.username
     }
