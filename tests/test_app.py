@@ -2,11 +2,6 @@ import pytest
 from flask import url_for
 from app import app, users, events, db
 from datetime import datetime
-import os
-from unittest.mock import patch
-from dotenv import load_dotenv
-
-load_dotenv()
 
 @pytest.fixture
 def client():
@@ -15,8 +10,8 @@ def client():
 
     # Set up a test client
     with app.test_client() as client:
-        # Reset the database before each test
-        db.users.delete_many({})  # Clear users collection
+        db.users.delete_many({}) 
+        db.events.delete_many({})
         yield client  
         db.users.delete_many({})
         db.events.delete_many({})
