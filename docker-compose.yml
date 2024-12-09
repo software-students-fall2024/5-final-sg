@@ -4,7 +4,8 @@ services:
     ports: 
       - 3000:3000
     environment:
-      MONGO_URI: mongodb://db:27017/
+      MONGO_URI: mongodb+srv://csh7916:pwd@cluster0.lrhnk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      #mongodb://db:27017/
       MONGO_DBNAME: sg
     depends_on:
       - db
