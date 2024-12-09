@@ -1,7 +1,7 @@
 # Final Project
 ![Web App CI/CD](https://github.com/software-students-fall2024/5-final-sg/actions/workflows/build.yml/badge.svg)
 
-### Tests work when run locally, but not with CI/CD pipeline
+Tests work when run locally, but not with CI/CD pipeline
 
 # Description
 
