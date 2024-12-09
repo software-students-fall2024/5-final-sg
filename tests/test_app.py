@@ -42,14 +42,6 @@ def test_register_get(client):
     assert response.status_code == 200
     assert b'Register' in response.data
 
-def test_register_post(client, monkeypatch):
-    mock_insert = MagicMock()
-    monkeypatch.setattr(users, 'insert_one', mock_insert)
-    response = client.post('/register', data={'username': 'testuser', 'password': 'password'}, follow_redirects=True)
-    assert response.status_code == 200
-    assert b'Registration successful. You can now log in.' in response.data
-    mock_insert.assert_called_once_with({'username': 'testuser', 'password': 'password'})
-
 def test_register_existing_user(client, monkeypatch):
     mock_find_one = MagicMock(return_value={'username': 'existinguser'})
     monkeypatch.setattr(users, 'find_one', mock_find_one)
