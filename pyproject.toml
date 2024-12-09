@@ -1,1 +1,7 @@
+# pytest settings that might help... feel free to modify or remove as needed
 
+[tool.pytest.ini_options]
+
+pythonpath = [
+  "."
+]
