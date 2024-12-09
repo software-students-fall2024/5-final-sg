@@ -3,34 +3,33 @@ name: Flask App CI
 on:
   push:
     branches:
-      - main  # or your default branch name
+      - main
   pull_request:
     branches:
-      - main  # or your default branch name
+      - main
 
 jobs:
   test:
-    runs-on: ubuntu-latest  # Running the tests on the latest Ubuntu image
-
+    runs-on: ubuntu-latest
     services:
       mongo:
-        image: mongo:latest  # Use the official MongoDB Docker image
+        image: mongo:latest
         ports:
           - 27017:27017
         options: >-
           --health-cmd="mongo --eval 'db.adminCommand('ping')'"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
+          --health-interval=30s
+          --health-timeout=10s
+          --health-retries=5
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v3  # Check out the repository code
+        uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
-          python-version: '3.9'  # Choose your required Python version
+          python-version: '3.9'
 
       - name: Install dependencies
         run: |
@@ -40,9 +39,15 @@ jobs:
       - name: Set up environment variables
         run: |
           echo "MONGO_URI=mongodb://localhost:27017/test_db" >> $GITHUB_ENV
-          echo "MONGO_DBNAME=test_db" >> $GITHUB_ENV  # Set Mongo URI and database for testing
+          echo "MONGO_DBNAME=test_db" >> $GITHUB_ENV
           echo "FLASK_APP=app.py" >> $GITHUB_ENV
+
+      - name: Wait for MongoDB to be ready
+        run: |
+          curl -sS https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh -o wait-for-it.sh
+          chmod +x wait-for-it.sh
+          ./wait-for-it.sh localhost:27017 --timeout=30 --strict -- echo "MongoDB is up"
 
       - name: Run tests
         run: |
-          pytest --maxfail=1 --disable-warnings -q  # Run your tests using pytest
+          pytest --maxfail=1 --disable-warnings -q
