@@ -9,7 +9,7 @@ My Calendar helps you keep track of your events on a calendar! You can add, dele
 
 # Links to Container Images
 
-[Web App](https://hub.docker.com/repository/docker/lucia0313/5-final-sg-app/general)
+[Web App](https://hub.docker.com/repository/docker/lucia0313/5-final-sg-app/general) <br>
 [Database](https://hub.docker.com/repository/docker/lucia0313/mongo/general)
 
 # Team Members
