@@ -10,7 +10,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../"
 @pytest.fixture
 def client():
     app.config['TESTING'] = True
-    app.config['MONGO_URI'] = 'mongodb://localhost:27017/test_db'  # Use a separate test database
+    app.config['MONGO_URI'] = 'mongodb://localhost:27017/test_db'
 
     # Set up a test client
     with app.test_client() as client:
