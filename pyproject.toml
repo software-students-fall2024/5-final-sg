@@ -3,6 +3,3 @@
 [tool.pytest.ini_options]
 minversion = "7.0" # minimum pytest version
 addopts = "-ra -q" # default pytest command line options
-pythonpath = [
-  "."
-]
