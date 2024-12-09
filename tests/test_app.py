@@ -6,8 +6,6 @@ import os
 from unittest.mock import patch
 from dotenv import load_dotenv
 
-load_dotenv()
-
 @pytest.fixture
 def client():
     app.config['TESTING'] = True

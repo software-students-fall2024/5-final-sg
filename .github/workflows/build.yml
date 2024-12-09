@@ -5,6 +5,10 @@ on: [pull_request]
 jobs:
   build-test:
     runs-on: ubuntu-latest
+    resources:
+      limits:
+        memory: 4GB
+        cpu: 2
     strategy:
       matrix:
         python-version: ["3.9", "3.10"]
