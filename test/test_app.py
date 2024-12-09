@@ -19,7 +19,7 @@ def client():
         db.users.delete_many({})  # Clear users collection
         yield client  
         db.users.delete_many({})
-        db.events.delete_many({})  
+        db.events.delete_many({})
 
 def test_register_get(client):
     response = client.get('/register')
