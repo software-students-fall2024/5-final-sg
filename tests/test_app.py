@@ -2,6 +2,10 @@ import pytest
 from flask import url_for
 from app import app, users, events, db
 from datetime import datetime
+import os
+import sys
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
 
 @pytest.fixture
 def client():
