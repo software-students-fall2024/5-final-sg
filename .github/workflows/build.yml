@@ -24,6 +24,15 @@ jobs:
           pip install pytest
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
+      - name: Debug test environment
+        run: |
+          echo "Current directory: $(pwd)"
+          echo "Listing files in the current directory:"
+          ls -l
+          echo "Listing files in the app directory:"
+          ls -l 
+          echo "Listing files in the tests directory:"
+          ls -l tests/
       - name: Run Tests
         run: |
           pytest tests/
