@@ -200,7 +200,10 @@ def delete_event(event_id):
     events.delete_one({"_id": ObjectId(event_id)})
     return redirect(url_for("home"))
 
-if __name__ == "__main__":
-    app.run(debug=True, port=3000)
+#if __name__ == "__main__":
+#    app.run(debug=True, port=3000)
    # from waitress import serve
     #serve(app, host="0.0.0.0", port=3000)
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 3000))
+    app.run(debug=False, host="0.0.0.0", port=port)
