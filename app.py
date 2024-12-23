@@ -12,7 +12,7 @@ app = Flask(__name__)
 app.secret_key = 'secret'
 
 #mongodb connect
-cxn = pymongo.MongoClient(os.getenv("MONGO_URI"))
+cxn = pymongo.MongoClient(os.getenv("MONGO_URI", "mongodb://db:27017/"))
 db = cxn[os.getenv("MONGO_DBNAME", "database")]
 users = db['users']
 events = db['events']
