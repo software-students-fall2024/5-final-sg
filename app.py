@@ -133,6 +133,10 @@ def database():
     user_events = list(events.find({"user": current_user.username}))
     return jsonify(json_util.dumps(user_events))
 
+@app.route('/health')
+def health_check():
+    return 'Healthy', 200
+
 #yeshni: other users pages
 @app.route('/users')
 @login_required
